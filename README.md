@@ -2,8 +2,11 @@
 
 ## Roster and Roles
 jessicaY (PM): 
+
 tiffanyY:  HTML + CSS (Design, Front-End)  
+
 tracyY: 
+
 keveinL: 
 
 
