@@ -1,13 +1,13 @@
 # Crossy Road by Team GG
 
 ## Roster and Roles
-jessicaY (PM): 
+jessicaY (PM): Sqlite3
 
 tiffanyY:  HTML + CSS (Design, Front-End)  
 
-tracyY: 
+tracyY: Javascript
 
-kevinL: 
+kevinL: Javascript and Flask
 
 
 ## Description
