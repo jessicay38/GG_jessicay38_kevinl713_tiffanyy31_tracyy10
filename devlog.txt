@@ -7,3 +7,13 @@ tyang 2024-01-05 2:46
 tyang 2024-1-06 11:44
 - added remaining base files needed for repo structure
 - Fufilled readme requirements
+
+jyu 2024-1-06 23:34
+- added team flag
+
+jyu 2024-1-09 0:54
+- made changes to design doc
+- specificed how difficulties change
+- elaborated on character purchasing page
+- replaced music api with music element in html
+- fixed and specified databases 

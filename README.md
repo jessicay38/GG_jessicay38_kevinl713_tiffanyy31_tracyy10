@@ -11,8 +11,10 @@ kevinL: Javascript and Flask
 
 
 ## Description
-CLassic Crossy Road Game in browser:
+Classic Crossy Road Game in browser:
 Cross the road with your chicken 🐓 Avoid getting run over by cars and hop between logs to avoid drowning. If you do either, GAME OVER! DEAD
+
+As your character travels farther down the map, different difficulties will be offered that will modify the speed of the logs and cars. As the difficulty increases, you can gain more points. 
 
 ## Install Guide [w.i.p]
 
@@ -64,3 +66,5 @@ $ python3 __init__.py
 To stop the app, press CTRL + C
 
 ## APIs
+
+No API keys needed.
