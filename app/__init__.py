@@ -11,20 +11,19 @@ from dateutil.parser import parse  # import for ISO 8601 parsing (for dates)
 from functools import wraps
 # from models import User  # import User model from models.py
 from calendar import monthrange, day_name
-from config import Config
 
 # adding config.py to search path
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 
 # flask app initializing
 app = Flask(__name__)
-app.config.from_object(Config)
+
 
 
 @app.route('/', methods=['GET', 'POST'])
 def home():
     #return render_template("base.html")
-    return render_template("crossyroads.html")
+    return render_template("home.html")
 
 @app.route('/game', methods=['GET', 'POST'])
 def game():
