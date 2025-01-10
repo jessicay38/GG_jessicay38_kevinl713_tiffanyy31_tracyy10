@@ -1,8 +1,8 @@
-let LaneSize = 30;
 //Gets the game element/box
 let game = document.getElementById("game");
 //Gets the height of the game
 let height = game.offsetHeight;
+let LaneSize = Math.ceil(height/12);
 //Gets the coordinates with top left corner as origin
 let pos = game.getBoundingClientRect();
 function Lane(ycor){
@@ -13,8 +13,20 @@ function Lane(ycor){
 }
 function main(){
   var lanes = [];
-  initialize(lanes);
-  animate(lanes);
+  setup(lanes);
+  //animate(lanes);
+}
+function setup(arr){
+  var start = document.createElement("BUTTON");
+  start.style.position = "absolute";
+  start.style.left = pos.left + 3*pos.width/8 + "px";
+  start.style.top = pos.bottom-pos.height/2 + "px";
+  start.style.width = pos.width/4+"px";
+  start.style.height = pos.height/4+"px";
+  start.textContent = "START";
+  start.style.border = "4px";
+  start.onclick = function(){initialize(arr);};
+  game.append(start);
 }
 function initialize(arr){
   for(var i = 0; i < Math.ceil(height/LaneSize);i ++){
@@ -68,3 +80,14 @@ function animate(arr){
   modLanes(arr);
   requestAnimationFrame(function() { animate(arr); });
 }
+function chicken(){
+  this.x = pos.left + pos.width/2;
+  this.y = pos.bottom-LaneSize/2;
+  this.el = document.createElement("div");
+  this.el.style.position = "absolute";
+  this.el.style.left = this.x+"px";
+  this.el.style.top = this.y+"px";
+  this.el.style.width = LaneSize/2;
+  this.el.style.height = LaneSize/2;
+}
+main()
