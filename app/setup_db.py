@@ -1,7 +1,7 @@
 import json 
 import sqlite3
 import os 
-from .auth import password_has, user_exists 
+from .auth import password_hash, user_exists 
 
 DB_FILE = os.path.join(os.path.dirname(__file__), "../db.db")
 
