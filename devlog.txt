@@ -17,3 +17,6 @@ jyu 2024-1-09 0:54
 - elaborated on character purchasing page
 - replaced music api with music element in html
 - fixed and specified databases 
+
+jyu 2024-1-09 22:29
+- created user, leaderboard, and theme databases in setup_db.py file
