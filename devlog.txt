@@ -33,3 +33,7 @@ tyang 2024-1-10 11:42
 
 kevinL 2024-1-09 11:42
 - Added start button so program runs on command
+
+jessicaY 2024-1-11 5:40
+- Added methods for users, coins, points, music, messages, and leaderboard in db file
+
