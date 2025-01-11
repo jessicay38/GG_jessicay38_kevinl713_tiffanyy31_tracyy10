@@ -21,6 +21,13 @@ def create_tables(db):
             );
             ''')
         c.execute('''
+            CREATE TABLE IF NOT EXISTS leaderboard (
+                username TEXT NOT NULL UNIQUE COLLATE NOCASE,
+                points INTEGER NO NULL,
+                message TEXT NO NULL 
+            );
+            ''')
+        c.execute('''
             CREATE TABLE IF NOT EXISTS themes (
                 username TEXT NOT NULL UNIQUE COLLATE NOCASE,
                 theme TEXT NO NULL UNIQUE,
@@ -70,7 +77,7 @@ def add_coins(username, coins):
     try:
         c = db.cursor()
         coins_now = int(c.execute("SELECT coins from USERS where username = ?", (username, )).fetchone()) + coins
-        c.execute("UPDATE coins FROM users WHERE usernanme = ?", (coins_now, username))
+        c.execute("UPDATE users SET coins=? WHERE usernanme = ?", (coins_now, username))
         coins = c.fetchone()
     except sqlite3.Error as e:
         print(f"fetch_user: {e}")
@@ -82,7 +89,7 @@ def remove_coins(username, coins):
     try:
         c = db.cursor()
         coins_now = int(c.execute("SELECT coins from USERS where username = ?", (username, )).fetchone()) - coins
-        c.execute("UPDATE coins FROM users WHERE usernanme = ?", (coins_now, username))
+        c.execute("UPDATE users SET coins=? WHERE usernanme = ?", (coins_now, username))
     except sqlite3.Error as e:
         print(f"fetch_user: {e}")
     finally:
@@ -93,7 +100,7 @@ def add_points(username, points):
     try:
         c = db.cursor()
         points_now = int(c.execute("SELECT points from USERS where username = ?", (username, )).fetchone()) + points
-        c.execute("UPDATE points FROM users WHERE usernanme = ?", (points_now, username))
+        c.execute("UPDATE users SET points=? WHERE usernanme = ?", (points_now, username))
         coins = c.fetchone()
     except sqlite3.Error as e:
         print(f"fetch_user: {e}")
@@ -124,6 +131,17 @@ def get_points(username):
         c.close()
         return points
 
+def choose_character(username, character):
+    db = sqlite3.connect(DB_FILE)
+    try:
+        c = db.cursor()
+        c.execute("UPDATE character FROM users WHERE usernanme = ?", (character, username))
+        coins = c.fetchone()
+    except sqlite3.Error as e:
+        print(f"fetch_user: {e}")
+    finally:
+        c.close()
+
 def choose_music(username, music):
     db = sqlite3.connect(DB_FILE)
     try:
@@ -146,26 +164,48 @@ def choose_message(username, message):
     finally:
         c.close()
 
-def get_message(username):
+def leaderboard():
     db = sqlite3.connect(DB_FILE)
     try:
         c = db.cursor()
-        c.execute("SELECT message FROM users WHERE usernanme = ?", (username,))
+        c.execute("SELECT users, username FROM users ORDER BY points DESC")
+        usernames = c.fetchall()
+        c.execute("SELECT users, points FROM users ORDER BY points DESC")
+        points = c.fetchall()
+        c.execute("SELECT users, message FROM users ORDER by points DESC ")
+        messages = c.fetchall()
+    except sqlite3.Error as e:
+        print(f"fetch_user: {e}")
+    finally:
+        c.close()
+        return usernames, points, messages
+
+def add_themes():
+    db = sqlite3.connect(DB_FILE)
+    try:
+        c = db.cursor()
+        c.execute("""
+            INSERT INTO themes VALUES 
+                ('Normal', 'Green', 'Green'),
+                ('Winter', 'White', 'White')
+        """)
         message = c.fetchone()
     except sqlite3.Error as e:
         print(f"fetch_user: {e}")
     finally:
         c.close()
-        return message
 
-def leaderboard():
+def custom_themes(username, theme, color1, color2):
     db = sqlite3.connect(DB_FILE)
     try:
         c = db.cursor()
-        c.execute("SELECT users, points FROM users ORDER BY points DESC")
-        points = c.fetchall()
+        c.execute("INSERT INTO themes (username, theme, color1, color2) VALUES (?, ?, ?, ?)", 
+        (username, theme, color1, color2))
+        db.commit()
+        message = c.fetchone()
     except sqlite3.Error as e:
         print(f"fetch_user: {e}")
     finally:
         c.close()
-        return points
+
+
