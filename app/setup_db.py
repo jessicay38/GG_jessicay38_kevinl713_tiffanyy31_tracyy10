@@ -131,6 +131,18 @@ def get_points(username):
         c.close()
         return points
 
+def change_high_score(username, score):
+    db = sqlite3.connect(DB_FILE)
+    try:
+        c = db.cursor()
+        curent_score = c.execute("SELECT highscore FROM users WHERE username = ?", (username,)).fetchone()
+            if (score > current_score):
+            c.execute("UPDATE users SET highscore=? WHERE username = ?", (score, username))
+    except sqlite3.Error as e:
+        print(f"fetch_user: {e}")
+    finally:
+        c.close()
+
 def choose_character(username, character):
     db = sqlite3.connect(DB_FILE)
     try:
