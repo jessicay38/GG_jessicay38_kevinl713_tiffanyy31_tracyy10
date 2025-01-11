@@ -35,5 +35,7 @@ kevinL 2024-1-09 11:42
 - Added start button so program runs on command
 
 jessicaY 2024-1-11 5:40
-- Added methods for users, coins, points, music, messages, and leaderboard in db file
+- Added get and add/remove methods for users, coins, points, and leaderboard in db file
+- Added methods to choose music and user message
+- Added pre-set themes and option for custom themes
 
