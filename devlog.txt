@@ -1,35 +1,41 @@
-tyang 2024-01-04 11:32 
+tiffanyY 2024-01-04 11:32 
 - Base files
 
-tyang 2024-01-05 2:46 
+tiffanyY 2024-01-05 2:46 
 - more base files
 
-tyang 2024-1-06 11:44
+tiffanyY 2024-1-06 11:44
 - added remaining base files needed for repo structure
 - Fufilled readme requirements
 
-jyu 2024-1-06 23:34
+jessicaY 2024-1-06 23:34
 - added team flag
 
-jyu 2024-1-09 0:54
+jessicaY 2024-1-09 0:54
 - made changes to design doc
 - specificed how difficulties change
 - elaborated on character purchasing page
 - replaced music api with music element in html
 - fixed and specified databases 
 
-jyu 2024-1-09 22:29
+jessicaY 2024-1-09 22:29
 - created user, leaderboard, and theme databases in setup_db.py file
 
 kevinL 2024-1-09 8:40
 - Created moving background for crossy road
 
-tyang 2024-1-09 11:42
+tiffanyY 2024-1-09 11:42
 - Added more placeholder files
 - Did base.html, used old login/reg html codes from global bites.
 
-tyang 2024-1-10 11:42
+tiffanyY 2024-1-10 11:42
 - More placeholder HTML code 
 
 kevinL 2024-1-09 11:42
 - Added start button so program runs on command
+
+jessicaY 2024-1-11 5:40
+- Added get and add/remove methods for users, coins, points, and leaderboard in db file
+- Added methods to choose music and user message
+- Added pre-set themes and option for custom themes
+
