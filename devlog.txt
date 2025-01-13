@@ -49,3 +49,6 @@ tracyY 2024-1-12 10:08
 - Added get_password to setup_db.py
 - Fixed db and initialized tables in main python file
 - (cannot move forward until DB is fixed.)
+
+tiffanyY 2024-1-12 20:00
+- Fixed DB file on request 
