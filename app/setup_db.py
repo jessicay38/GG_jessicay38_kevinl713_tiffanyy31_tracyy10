@@ -2,11 +2,10 @@ import sqlite3
 import os
 
 # Define the database file path
-DB_FILE = os.path.join(os.path.dirname(__file__), "db.db")
+conn = sqlite3.connect('db.db')
 
 
 def setup_database():
-    conn = sqlite3.connect(DB_PATH)
     with conn:
         conn.execute('''
             CREATE TABLE IF NOT EXISTS users (
@@ -40,4 +39,4 @@ def setup_database():
 # Run the setup
 if __name__ == "__main__":
     setup_database()
-    print(f"Database created and tables set up at {DB_FILE}")
+

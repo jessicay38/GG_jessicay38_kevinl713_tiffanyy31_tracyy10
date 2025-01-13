@@ -1,15 +1,17 @@
 <!DOCTYPE html>
-    <html lang="en">
+
+<html lang="en">
+
+  <html>
     <head>
-        <title> Crossy in Progress </title>
-        <script src="https://cdn.tailwindcss.com"></script>
-        <link href="../static/css/style.css" rel="stylesheet">
+      <meta charset="utf-8"/>
+      <script src="https://cdn.tailwindcss.com"></script>
+      <title>JS work the foist</title>
     </head>
 
-    <body class="bg-slate-300">
-        <img src="../static/chicken.png" alt="cluck cluck" width="300" height=100 class="chicken"">
-        <script src="../static/js/chicken_movement.js"></script>
+    <body class="flex w-screen h-screen items-center justify-center">
+      <canvas class="w-2/3 h-2/3 bg-purple-500 overflow-hidden" id="game" style="clip-path: inset(0px 0px 0px 0px);">
+      </canvas>
+      <script src="app/static/js/crossy.js"></script>
     </body>
-</html>
-
-<!-- load le chicken -->
+  </html>
