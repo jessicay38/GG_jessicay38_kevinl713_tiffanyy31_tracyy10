@@ -18,9 +18,10 @@ sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 # flask app initializing
 app = Flask(__name__)
 
-#import database file
-import setup_db
-setup_db.create_tables()
+def get_db_connection():
+    conn = sqlite3.connect(DB_PATH)
+    conn.row_factory = sqlite3.Row
+    return conn
 
 # sessions
 secret = os.urandom(32)
