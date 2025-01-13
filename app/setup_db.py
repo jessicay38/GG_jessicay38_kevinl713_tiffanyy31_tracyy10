@@ -2,10 +2,11 @@ import json
 import sqlite3
 import os 
 
-DB_FILE = os.path.join(os.path.dirname(__file__), "../db.db")
+DB_FILE = "GG_database.db"
 
-def create_tables(db):
+def create_tables():
     try:
+        db = sqlite3.connect(DB_FILE)
         c = db.cursor()
         c.execute('''
             CREATE TABLE IF NOT EXISTS users (
@@ -70,7 +71,15 @@ def get_username(username):
         print(f"fetch_user: {e}")
     finally:
         c.close()
+#         print(username)
         return username
+
+def get_password(username):
+    db = sqlite3.connect(DB_FILE)
+    c = db.cursor()
+    password = c.execute("SELECT * FROM users WHERE username = ?", (username,)).fetchone()
+    c.close()
+    return password
 
 def add_coins(username, coins):
     db = sqlite3.connect(DB_FILE)
@@ -136,7 +145,7 @@ def change_high_score(username, score):
     try:
         c = db.cursor()
         curent_score = c.execute("SELECT highscore FROM users WHERE username = ?", (username,)).fetchone()
-            if (score > current_score):
+        if (score > current_score):
             c.execute("UPDATE users SET highscore=? WHERE username = ?", (score, username))
     except sqlite3.Error as e:
         print(f"fetch_user: {e}")
@@ -220,4 +229,4 @@ def custom_themes(username, theme, color1, color2):
     finally:
         c.close()
 
-
+create_user("ew", "ew")

@@ -4,6 +4,9 @@ tiffanyY 2024-01-04 11:32
 tiffanyY 2024-01-05 2:46 
 - more base files
 
+tracyY 2024-010-05 5:45
+- Updates to design doc
+
 tiffanyY 2024-1-06 11:44
 - added remaining base files needed for repo structure
 - Fufilled readme requirements
@@ -39,3 +42,10 @@ jessicaY 2024-1-11 5:40
 - Added methods to choose music and user message
 - Added pre-set themes and option for custom themes
 
+tracyY 2024-1-12 10:08
+- Created chicken movements
+- Fixed indenting in setup_db.py
+- Made Navbar unavaiable for users not logged in
+- Added get_password to setup_db.py
+- Fixed db and initialized tables in main python file
+- (cannot move forward until DB is fixed.)

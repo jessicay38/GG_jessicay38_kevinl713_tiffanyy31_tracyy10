@@ -18,34 +18,71 @@ sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 # flask app initializing
 app = Flask(__name__)
 
+#import database file
+import setup_db
+setup_db.create_tables()
 
+# sessions
+secret = os.urandom(32)
+app.secret_key = secret
 
 @app.route('/', methods=['GET', 'POST'])
+def login():
+    if 'username' in session:
+        return redirect("/home")
+    elif request.method == 'POST':
+        return redirect("/auth")
+    return render_template("login.html")
+
+@app.route('/auth', methods=['GET', 'POST'])
+def auth():
+    username = request.form.get('username')
+    password = request.form.get('password')
+    if (setup_db.get_username(username) == None):
+        flash("This username does not have an account linked to it. Create an account?", "error")
+        return redirect("/")
+    print(setup_db.get_password(username))
+#     if (password == setup_db.get_password(username)):
+#         session['username'] = username
+#         return redirect("/home")
+#     flash("Incorrect password", "error")
+    return redirect("/login")
+    
+
+@app.route('/home', methods=['GET', 'POST'])
 def home():
-    #return render_template("base.html")
+    if 'username' not in session:
+        return redirect("/")
     return render_template("home.html")
 
-@app.route('/game', methods=['GET', 'POST'])
-def game():
-    return render_template("game.html")
-@app.route('/crossyroads', methods=['GET', 'POST'])
-def crossyroads():
-    return render_template("crossyroads.html")
-@app.route('/home', methods=['GET', 'POST'])
-def dash():
-    return render_template("home.html")
-@app.route('/login', methods=['GET', 'POST'])
-def login():
-    return render_template("login.html")
 @app.route('/register', methods=['GET', 'POST'])
 def register():
     return render_template("register.html")
+
+@app.route('/game', methods=['GET', 'POST'])
+def game():
+    if 'username' not in session:
+        return redirect("/")
+    return render_template("game.html")
+
+@app.route('/crossyroads', methods=['GET', 'POST'])
+def crossyroads():
+    return render_template("crossyroads.html")
+
 @app.route('/settings', methods=['GET', 'POST'])
 def settings():
+    if 'username' not in session:
+        return redirect("/")
     return render_template("settings.html")
+
 @app.route('/store', methods=['GET', 'POST'])
 def store():
     return render_template("store.html")
+    
+@app.route('/logout', methods=['GET', 'POST'])
+def logout():
+    session.pop("username", None)
+    return redirect("/")
     
 if __name__ == "__main__":
     app.run(debug=True)
