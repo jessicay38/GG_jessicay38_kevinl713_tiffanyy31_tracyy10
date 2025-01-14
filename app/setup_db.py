@@ -74,8 +74,6 @@ def add_coins(username, coins):
         coins_now = int(c.execute("SELECT coins from USERS where username = ?", (username, )).fetchone()) + coins 
         c.execute("UPDATE users SET coins=? WHERE usernanme = ?", (coins_now, username)) 
         coins = c.fetchone() 
-    except sqlite3.Error as e: 
-        print(f"fetch_user: {e}") 
     finally: 
         c.close() 
  
@@ -85,8 +83,6 @@ def remove_coins(username, coins):
         c = db.cursor() 
         coins_now = int(c.execute("SELECT coins from USERS where username = ?", (username, )).fetchone()) - coins 
         c.execute("UPDATE users SET coins=? WHERE usernanme = ?", (coins_now, username)) 
-    except sqlite3.Error as e: 
-        print(f"fetch_user: {e}") 
     finally: 
         c.close() 
  
@@ -97,8 +93,6 @@ def add_points(username, points):
         points_now = int(c.execute("SELECT points from USERS where username = ?", (username, )).fetchone()) + points 
         c.execute("UPDATE users SET points=? WHERE usernanme = ?", (points_now, username)) 
         coins = c.fetchone() 
-    except sqlite3.Error as e: 
-        print(f"fetch_user: {e}") 
     finally: 
         c.close() 
  
@@ -108,8 +102,6 @@ def get_coins(username):
         c = db.cursor() 
         c.execute("SELECT coins FROM users WHERE usernanme = ?", (username,)) 
         coins = c.fetchone() 
-    except sqlite3.Error as e: 
-        print(f"fetch_user: {e}") 
     finally: 
         c.close() 
         return coins 
@@ -120,8 +112,6 @@ def get_points(username):
         c = db.cursor() 
         c.execute("SELECT points FROM users WHERE usernanme = ?", (username,)) 
         message = c.fetchone() 
-    except sqlite3.Error as e: 
-        print(f"fetch_user: {e}") 
     finally: 
         c.close() 
         return points 
@@ -133,8 +123,6 @@ def change_high_score(username, score):
         curent_score = c.execute("SELECT highscore FROM users WHERE username = ?", (username,)).fetchone() 
         if (score > current_score): 
             c.execute("UPDATE users SET highscore=? WHERE username = ?", (score, username)) 
-    except sqlite3.Error as e: 
-        print(f"fetch_user: {e}") 
     finally: 
         c.close() 
  
@@ -144,8 +132,6 @@ def choose_character(username, character):
         c = db.cursor() 
         c.execute("UPDATE character FROM users WHERE usernanme = ?", (character, username)) 
         coins = c.fetchone() 
-    except sqlite3.Error as e: 
-        print(f"fetch_user: {e}") 
     finally: 
         c.close() 
  
@@ -155,8 +141,6 @@ def choose_music(username, music):
         c = db.cursor() 
         c.execute("UPDATE musicPref FROM users WHERE usernanme = ?", (music, username)) 
         coins = c.fetchone() 
-    except sqlite3.Error as e: 
-        print(f"fetch_user: {e}") 
     finally: 
         c.close() 
  
@@ -166,8 +150,6 @@ def choose_message(username, message):
         c = db.cursor() 
         c.execute("UPDATE message FROM users WHERE usernanme = ?", (message, username)) 
         coins = c.fetchone() 
-    except sqlite3.Error as e: 
-        print(f"fetch_user: {e}") 
     finally: 
         c.close() 
  
@@ -181,8 +163,6 @@ def leaderboard():
         points = c.fetchall() 
         c.execute("SELECT users, message FROM users ORDER by points DESC ") 
         messages = c.fetchall() 
-    except sqlite3.Error as e: 
-        print(f"fetch_user: {e}") 
     finally: 
         c.close() 
         return usernames, points, messages 
@@ -197,8 +177,6 @@ def add_themes():
                 ('Winter', 'White', 'White') 
         """) 
         message = c.fetchone() 
-    except sqlite3.Error as e: 
-        print(f"fetch_user: {e}") 
     finally: 
         c.close() 
  
@@ -210,8 +188,6 @@ def custom_themes(username, theme, color1, color2):
         (username, theme, color1, color2)) 
         db.commit() 
         message = c.fetchone() 
-    except sqlite3.Error as e: 
-        print(f"fetch_user: {e}") 
     finally: 
         c.close()
 
