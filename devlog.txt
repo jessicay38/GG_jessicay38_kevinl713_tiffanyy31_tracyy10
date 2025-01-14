@@ -54,3 +54,8 @@ tiffanyY 2024-1-12 20:00
 - Fixed DB file on request 
 - Made more errors in DB but fixed, also fixed init to properly run
 - Finished register.html
+
+tiffanyY 2024-1-13 20:00
+- Settings.html, changed a bit in base, did game.html
+- Helped with DB file
+- Fixed some linkages
