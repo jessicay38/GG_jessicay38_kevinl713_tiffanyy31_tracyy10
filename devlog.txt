@@ -63,3 +63,4 @@ tiffanyY 2024-1-13 20:00
 jessicaY 2024-2-13 3:26
 - made changes to database methods 
 - got rid of exceptions due to errors 
+- updated devlog and readme
