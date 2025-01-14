@@ -72,8 +72,7 @@ def crossyroads():
 
 @app.route('/settings', methods=['GET', 'POST'])
 def settings():
-    if 'username' not in session:
-        return redirect("/")
+
     return render_template("settings.html")
 
 @app.route('/store', methods=['GET', 'POST'])

@@ -1,18 +1,206 @@
-<!DOCTYPE html>
+{% extends "base.html" %}
 
-<html lang="en">
+{% block title %}Profile Settings{% endblock %}
 
-  <html>
-    <head>
-      <meta charset="utf-8"/>
-      <script src="https://cdn.tailwindcss.com"></script>
-      <title>JS work the foist</title>
-    </head>
+{% block content %}
+<div class="max-w-3xl mx-auto shadow-md rounded-lg p-8 mt-10 border border-gray-300">
+    <h1 class="text-2xl font-bold text-center mb-6">Advanced Settings</h1>
 
-    <body class="flex w-screen h-screen items-center justify-center">
-      <p><button onclick="main()">Click Me</button></p> 
-      <div class="w-2/3 h-2/3 bg-purple-500 overflow-hidden" id="game">
-      </div>
-      <script src="crossy.js"></script>
-    </body>
-  </html>
+    <!-- flash  -->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+        <div class="mb-4">
+            {% for category, message in messages %}
+                <div class="text-sm p-2 mb-2 border rounded text-{{ 'red' if category == 'error' else 'green' }}-700 bg-{{ 'red' if category == 'error' else 'green' }}-100">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        </div>
+    {% endif %}
+    {% endwith %}
+    <!-- custom themes -->
+    <section>
+        <h2 class="text-xl font-semibold mb-4">Custom Theme</h2>
+        <form id="customThemeForm" class="space-y-4">
+            <div>
+                <label for="background-color" class="block font-medium">Background Color:</label>
+                <input type="color" id="background-color" name="background-color" value="#ffffff" class="mt-1">
+            </div>
+            <div>
+                <label for="text-color" class="block font-medium">Text Color:</label>
+                <input type="color" id="text-color" name="text-color" value="#000000" class="mt-1">
+            </div>
+            <div>
+                <label for="accent-color" class="block font-medium">Accent Color:</label>
+                <input type="color" id="accent-color" name="accent-color" value="#38b1b5" class="mt-1">
+            </div>
+            <button type="button" onclick="applyCustomTheme()" class="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition">Apply Custom Theme</button>
+        </form>
+    </section>
+
+{% endblock %}
+
+{% block scripts %}
+    {{ super() }}
+    <script>
+// finction to set the user mode
+function setMode(mode) {
+    // remove existing mode
+    document.body.classList.remove('light-mode', 'dark-mode', 'topher-mode');
+    const navbar = document.querySelector('.navbar');
+    const footer = document.querySelector('.footer');
+    navbar.classList.remove('light-mode', 'dark-mode', 'topher-mode');
+    footer.classList.remove('light-mode', 'dark-mode', 'topher-mode');
+
+    // add selected mode
+    document.body.classList.add(`${mode}-mode`);
+    navbar.classList.add(`${mode}-mode`);
+    footer.classList.add(`${mode}-mode`);
+
+    // save
+    localStorage.setItem('mode', mode);
+
+    // highlight the current mode in the dropdown menu
+     const modeLinks = document.querySelectorAll('#modeSwitcherMenu a');
+     modeLinks.forEach(link => link.classList.remove('bg-blue-500', 'text-white')); // temove highlight
+     const currentModeLink = document.querySelector(`#modeSwitcherMenu a[onclick="setMode('${mode}')"]`);
+     if (currentModeLink) {
+         currentModeLink.classList.add('bg-blue-500', 'text-white'); // add highlight
+     }
+
+}
+
+// function to save mode on page
+function loadMode() {
+    const savedMode = localStorage.getItem('mode') || 'topher'; // topher is default mode man
+    setMode(savedMode);
+}
+
+// event listener to make sure objects are loaded
+document.addEventListener('DOMContentLoaded', function() {
+    loadMode();
+
+    //toggle dropdown menu 
+    const modeSwitcherBtn = document.getElementById('modeSwitcherBtn');
+    const modeSwitcherMenu = document.getElementById('modeSwitcherMenu');
+
+    modeSwitcherBtn.addEventListener('click', function(event) {
+        event.stopPropagation();
+        modeSwitcherMenu.classList.toggle('hidden');
+    });
+
+    // close the dropdown when clicking outside
+    document.addEventListener('click', function() {
+        modeSwitcherMenu.classList.add('hidden');
+    });
+});
+
+        // Function to set the user mode
+        function setMode(mode) {
+            // Remove existing mode classes
+            document.body.classList.remove('light-mode', 'dark-mode', 'topher-mode', 'custom-mode');
+            const navbar = document.querySelector('.navbar');
+            const footer = document.querySelector('.footer');
+            navbar.classList.remove('light-mode', 'dark-mode', 'topher-mode', 'custom-mode');
+            footer.classList.remove('light-mode', 'dark-mode', 'topher-mode', 'custom-mode');
+
+            // Apply new mode
+            if (mode === 'custom') {
+                // Load custom theme if it exists
+                const savedTheme = JSON.parse(localStorage.getItem('customTheme'));
+                if (savedTheme) {
+                    document.documentElement.style.setProperty('--bg-color', savedTheme.bgColor);
+                    document.documentElement.style.setProperty('--text-color', savedTheme.textColor);
+                    document.documentElement.style.setProperty('--accent-color', savedTheme.accentColor);
+                    document.body.classList.add('custom-mode');
+                    navbar.classList.add('custom-mode');
+                    footer.classList.add('custom-mode');
+                } else {
+                    // If no custom theme is saved, default to light mode
+                    setMode('light');
+                    return;
+                }
+            } else {
+                document.body.classList.add(`${mode}-mode`);
+                navbar.classList.add(`${mode}-mode`);
+                footer.classList.add(`${mode}-mode`);
+            }
+
+            // Save the mode to localStorage
+            localStorage.setItem('mode', mode);
+
+            // Highlight the current mode in the dropdown menu
+            const modeLinks = document.querySelectorAll('#modeSwitcherMenu a');
+            modeLinks.forEach(link => link.classList.remove('bg-blue-500', 'text-white')); // Remove highlight
+            const currentModeLink = document.querySelector(`#modeSwitcherMenu a[onclick="setMode('${mode}')"]`);
+            if (currentModeLink) {
+                currentModeLink.classList.add('bg-blue-500', 'text-white'); // Add highlight
+            }
+
+            // Close the mode switcher menu
+            document.getElementById('modeSwitcherMenu').classList.add('hidden');
+        }
+
+        // Function to apply custom theme
+        function applyCustomTheme() {
+            const backgroundColor = document.getElementById("background-color").value;
+            const textColor = document.getElementById("text-color").value;
+            const accentColor = document.getElementById("accent-color").value;
+
+            // Apply the custom colors to the document
+            document.documentElement.style.setProperty('--bg-color', backgroundColor);
+            document.documentElement.style.setProperty('--text-color', textColor);
+            document.documentElement.style.setProperty('--accent-color', accentColor);
+
+            // Add 'custom-mode' class to body, navbar, and footer
+            document.body.classList.add('custom-mode');
+            document.querySelector('.navbar').classList.add('custom-mode');
+            document.querySelector('.footer').classList.add('custom-mode');
+
+            // Save the custom theme to localStorage
+            const theme = { bgColor: backgroundColor, textColor: textColor, accentColor: accentColor };
+            localStorage.setItem('customTheme', JSON.stringify(theme));
+
+            // Save the mode as 'custom' in localStorage
+            localStorage.setItem('mode', 'custom');
+
+            // Highlight the custom mode in the dropdown menu
+            const modeLinks = document.querySelectorAll('#modeSwitcherMenu a');
+            modeLinks.forEach(link => link.classList.remove('bg-blue-500', 'text-white')); // Remove highlight
+            const customModeLink = document.querySelector(`#modeSwitcherMenu a[onclick="setMode('custom')"]`);
+            if (customModeLink) {
+                customModeLink.classList.add('bg-blue-500', 'text-white'); // Add highlight
+            }
+
+            // Close the mode switcher menu
+            document.getElementById('modeSwitcherMenu').classList.add('hidden');
+
+            alert("Custom theme applied successfully!");
+        }
+
+        // Function to load the saved mode on page load
+        function loadMode() {
+            const savedMode = localStorage.getItem('mode') || 'topher'; // 'topher' is default
+            setMode(savedMode);
+        }
+
+        // Event listener to initialize theme on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            loadMode();
+
+            // Toggle dropdown menu 
+            const modeSwitcherBtn = document.getElementById('modeSwitcherBtn');
+            const modeSwitcherMenu = document.getElementById('modeSwitcherMenu');
+
+            modeSwitcherBtn.addEventListener('click', function(event) {
+                event.stopPropagation();
+                modeSwitcherMenu.classList.toggle('hidden');
+            });
+
+            // Close the dropdown when clicking outside
+            document.addEventListener('click', function() {
+                modeSwitcherMenu.classList.add('hidden');
+            });
+        });
+    </script>
+{% endblock %}
