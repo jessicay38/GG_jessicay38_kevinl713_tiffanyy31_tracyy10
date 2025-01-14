@@ -42,13 +42,6 @@ def create_tables():
     finally: 
         c.close() 
  
-def setup_db(): 
-    db = sqlite3.connect(DB_FILE) 
-    drop_tables(db) 
-    create_tables(db) 
-    db.commit() 
-    db.close() 
- 
 def create_user(username, password): 
     db = sqlite3.connect(DB_FILE) 
     try: 
@@ -60,17 +53,12 @@ def create_user(username, password):
         c.close() 
  
 def get_username(username): 
-    db = sqlite3.connect(DB_FILE) 
-    try: 
-        c = db.cursor() 
-        c.execute("SELECT * FROM users WHERE username = ?", (username,)) 
-        user = c.fetchone() 
-    except sqlite3.Error as e: 
-        print(f"fetch_user: {e}") 
-    finally: 
-        c.close() 
-#         print(username) 
-        return username 
+    db = sqlite3.connect(DB_FILE)
+    c = db.cursor()
+    userExists = c.execute("SELECT * FROM users WHERE username = ?", (username,)).fetchall()
+    if len(userExists) == 0:
+        return False;
+    return True;
  
 def get_password(username): 
     db = sqlite3.connect(DB_FILE) 
