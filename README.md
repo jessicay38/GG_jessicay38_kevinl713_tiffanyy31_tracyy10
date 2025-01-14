@@ -5,9 +5,9 @@ jessicaY (PM): Sqlite3
 
 tiffanyY:  HTML + CSS (Design, Front-End)  
 
-tracyY: Javascript
+tracyY: Flask
 
-kevinL: Javascript and Flask
+kevinL: Javascript
 
 
 ## Description
