@@ -18,10 +18,7 @@ sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 # flask app initializing
 app = Flask(__name__)
 
-def get_db_connection():
-    conn = sqlite3.connect(DB_PATH)
-    conn.row_factory = sqlite3.Row
-    return conn
+import setup_db
 
 # sessions
 secret = os.urandom(32)
@@ -43,10 +40,10 @@ def auth():
         flash("This username does not have an account linked to it. Create an account?", "error")
         return redirect("/")
     print(setup_db.get_password(username))
-#     if (password == setup_db.get_password(username)):
-#         session['username'] = username
-#         return redirect("/home")
-#     flash("Incorrect password", "error")
+    if (password == setup_db.get_password(username)):
+        session['username'] = username
+        return redirect("/home")
+    flash("Incorrect password", "error")
     return redirect("/login")
     
 
