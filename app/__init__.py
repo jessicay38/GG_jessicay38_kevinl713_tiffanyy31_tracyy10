@@ -48,9 +48,15 @@ def auth():
 
 @app.route('/home', methods=['GET', 'POST'])
 def home():
-    if 'username' not in session:
-        return redirect("/")
+#   if 'username' not in session:
+ #       return redirect("/")
     return render_template("home.html")
+
+@app.route('/leaderboard', methods=['GET', 'POST'])
+def leaderboard():
+#   if 'username' not in session:
+ #       return redirect("/")
+    return render_template("leaderboard.html")
 
 @app.route('/register', methods=['GET', 'POST'])
 def register():
