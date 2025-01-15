@@ -3,18 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}GG{% endblock %}</title>
+    <title> Leaderboard</title>
     <script src="https://cdn.tailwindcss.com"></script>
 
     <!-- CSS -->
     <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
-
-    <!-- Additional Styles -->
-    
 </head>
-<body class="bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 transition-colors duration-300">
+<body class="min-h-screen bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 transition-colors duration-300">
     <!-- Navigation Bar -->
-    <nav class="navbar bg-white dark:bg-gray-800 shadow" role="navigation" aria-label="Main navigation">
+    <nav class="navbar bg-black dark:bg-gray-800 shadow" role="navigation" aria-label="Main navigation">
         <div class="container mx-auto px-4 py-4 flex justify-between items-center">
             <a href="{{ url_for('home') }}" class="text-2xl font-bold text-gray-800 dark:text-gray-100">GG</a>
             <div class="md:hidden">
@@ -42,12 +39,15 @@
     </nav>
 
     <!-- Main Content -->
-    <div class="container mx-auto mt-6 px-4">
-        {% block content %}{% endblock %}
+    <div class="grid justify-items-center grid-flow-row grid-col-4 gap-10 m-10 pl-60 pr-60">
+        <div class="w-1/2 row-start-5 row-span-10 bg-white">x</div>
+        <div class="w-1/2 row-start-7 row-span-8 bg-white">x</div>
+        <div class="w-1/2 row-start-9 row-span-6 bg-white">x</div>
+        <div class="w-full row-start-3 row-span-12 bg-white">x</div>
     </div>
 
     <!-- Footer -->
-    <footer class="footer bg-white dark:bg-gray-800 shadow mt-8">
+    <footer class="footer bg-black dark:bg-gray-800 shadow mt-8">
         <div class="container mx-auto px-4 py-6 text-center text-gray-600 dark:text-gray-300">
             &copy; GG_jessicay38_kevinl713_tiffanyy31_tracyy10
         </div>
