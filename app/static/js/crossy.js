@@ -135,7 +135,7 @@ function modLanes(arr){
 }
 //Basically a loop that animates the screen
 function animate(arr){
-  if (!playing) { 
+  if (!playing) {
     cancelAnimationFrame(animationId);
     for(var i = 0; i < arr.length; i ++){
       clearInterval(arr[i].carInterval);
@@ -148,7 +148,7 @@ function animate(arr){
   drawAll(arr);
   for(var i = 0; i < arr.length; i ++){
     if(arr[i].y == Chicken.y){
-      collision(arr[i].cars);
+      collision(arr[i].cars,arr[i].type);
     }
   }
   animationId = requestAnimationFrame(function() { animate(arr); });
@@ -169,7 +169,7 @@ function drawCars(arr) {
     }
   }
 }
-function collision(arr){
+function collision(arr,type){
   for(var i = 0; i < arr.length; i ++){
     if((Chicken.x > arr[i].x && Chicken.x < arr[i].x + carW) || (Chicken.x + LaneSize/2 > arr[i].x && Chicken.x + LaneSize/2 < arr[i].x + carW)){
       playing = false;

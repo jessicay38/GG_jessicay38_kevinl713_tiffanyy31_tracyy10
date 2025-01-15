@@ -18,6 +18,8 @@ let mouseX = 0;
 let mouseY = 0;
 function main(){
   setup();
+  animate();
+  display();
 }
 function setup(){
   for(var i = 0; i < row; i++){
@@ -32,12 +34,12 @@ function tile(x,y){
   this.node = null;
 }
 function getTile(x,y){
-  return grid[Math.round(y/row)][Math.round(x/col)];
+  return grid[Math.floor(y/height)][Math.floor(x/width)];
 }
-function linkedNode(){
+function linkedNode(tile){
   this.next = null;
-  this.x;
-  this.y;
+  this.x = tile.x;
+  this.y = tile.y;
 }
 function isNeighbor(x,y){
   var curr = getTile(x,y);
@@ -84,13 +86,36 @@ function enemy(){
   this.x = startNode.x;
   this.y = startNode.y;
 }
+function display(){
+  for(var i = 0; i < row; i++){
+    for(var a = 0; a < col; a ++){
+      var tile = grid[i][a];
+      if(tile.node != null){
+        ctx.fillRect(tile.x,tile.y,width,height);
+      }
+      else{
+        ctx.strokeRect(tile.x,tile.y,width,height);
+      }
+    }
+  }
+}
+function animate(){
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  display();
+  requestAnimationFrame(function() { animate(); });
+}
 document.addEventListener("keydown", function(event) {
   if(event.key == "b"){
     buildMode = !buildMode;
   }
   //left mouse click
   if(event.key == "a" && buildMode){
-    getTile();
+    console.log(mouseX,mouseY);
+    console.log(mouseX/width,mouseY/height);
+    console.log(width,height);
+    var temp = new linkedNode(getTile(mouseX,mouseY));
+    getTile(mouseX,mouseY).node = temp;
+    lastNode = temp;
   }
 });
 canvas.addEventListener("mousemove", function(event) {
@@ -99,6 +124,5 @@ canvas.addEventListener("mousemove", function(event) {
   const y = event.clientY - rect.top;
   mouseX = x;
   mouseY = y;
-  console.log("Mouse Position:", mouseX, mouseY);
 });
 main()

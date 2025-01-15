@@ -36,10 +36,9 @@ def login():
 def auth():
     username = request.form.get('username')
     password = request.form.get('password')
-    if (setup_db.get_username(username) == None):
+    if (setup_db.get_username(username) == False):
         flash("This username does not have an account linked to it. Create an account?", "error")
         return redirect("/")
-    print(setup_db.get_password(username))
     if (password == setup_db.get_password(username)):
         session['username'] = username
         return redirect("/home")
