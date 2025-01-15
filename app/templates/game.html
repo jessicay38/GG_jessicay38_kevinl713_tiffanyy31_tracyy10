@@ -1,19 +1,37 @@
-{% extends "base.html" %}
-{% block title %}Home - GG{% endblock %}
-{% block content %}
-<div class="mt-8">
-    <!-- search bar -->
-    <div class="flex justify-center mb-6 mt-6">
-        <input type="text" placeholder="Games..." class="w-2/3 p-3 border border-gray-400 rounded-l-lg focus:outline-none focus:ring-2 focus:ring-blue-500" />
-        <button class="bg-blue-500 border border-gray-400 text-white px-6 rounded-r-lg hover:bg-blue-600 transition">Search</button>
-    </div>
-    <div class="max-w-lg mx-auto bg-white border border-gray-400 shadow-md rounded-lg p-12 mt-10">
-        <li><a href="{{ url_for('crossyroads') }}" class="text-gray-600 hover:text-gray-800">Crossy Roads</a></li>
-    </div>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Crossy Roads</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      overflow: hidden;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background-color: #f0f0f0;
+    }
+    canvas {
+      background-color: #8fbc8f;
+      border: 2px solid black;
+    }
+    .chicken {
+      position: absolute;
+      width: 50px;
+      height: 50px;
+      background-color: yellow;
+      border-radius: 50%;
+    }
+  </style>
+</head>
+<body>
+  <canvas id="game"></canvas>
+  <div class="chicken" id="chicken"></div>
+  <script src="/static/js/cross.js"></script>
 
-    <div class="max-w-lg mx-auto bg-white border border-gray-400 shadow-md rounded-lg p-12 mt-10">
-        <li><a href="{{ url_for('game') }}" class="text-gray-600 hover:text-gray-800">Coming soon... (maybe)</a></li>
-    </div>
-
-
-{% endblock %}
+</body>
+</html>

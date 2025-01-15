@@ -64,8 +64,8 @@ def register():
 
 @app.route('/game', methods=['GET', 'POST'])
 def game():
-    if 'username' not in session:
-        return redirect("/")
+#   if 'username' not in session:
+ #       return redirect("/")
     return render_template("game.html")
 
 @app.route('/crossyroads', methods=['GET', 'POST'])
