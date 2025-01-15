@@ -10,26 +10,48 @@ chicken_img.style.position = "absolute"; // Set the chicken image to absolute po
 chicken_img.style.left = chickenX + "px";
 chicken_img.style.top = chickenY + "px";
 
+// Points system
+let score = 0;
+let scoreDisplay = document.getElementById("score");
+
+// Function to update the score
+function updateScore() {
+    scoreDisplay.innerText = "Score: " + score;
+}
+
 // Function to move the chicken
 function makeMove(e) {
     if (e === "w") {
         chickenY -= 50; // Move up
         chicken_img.style.top = chickenY + "px";
+        score++; // Increase score
+        updateScore();
         console.log("Moved: UP");
     } else if (e === "s") {
         chickenY += 50; // Move down
         chicken_img.style.top = chickenY + "px";
+        score++; // Increase score
+        updateScore();
         console.log("Moved: DOWN");
     } else if (e === "a") {
         chickenX -= 50; // Move left
         chicken_img.style.left = chickenX + "px";
+        score++; // Increase score
+        updateScore();
         console.log("Moved: LEFT");
     } else if (e === "d") {
         chickenX += 50; // Move right
         chicken_img.style.left = chickenX + "px";
+        score++; // Increase score
+        updateScore();
         console.log("Moved: RIGHT");
     } else {
         console.log("Illegal move!");
+    }
+
+    // Check for border collision
+    if (chickenX < 0 || chickenX > canvas.width - 50 || chickenY < 0 || chickenY > canvas.height - 50) {
+        gameOver();
     }
 }
 
@@ -45,9 +67,8 @@ canvas.width = window.innerWidth;
 canvas.height = window.innerHeight;
 let LaneSize = Math.floor(canvas.height / 12);
 let carW = Math.floor(canvas.width / 15);
-let minSpawn = 500;
-let maxSpawn = 1000;
-let score = 0;
+let minSpawn = 1000; // Increased spawn time for cars
+let maxSpawn = 2000; // Increased spawn time for cars
 let playing = true;
 let animationId;
 let Chicken;
@@ -68,11 +89,11 @@ function Lane(ycor) {
 // Car constructor
 function car(lane) {
     if (lane.direction > 0.5) {
-        this.x = canvas.width + Math.random() * 100;
-        this.speed = -10;
+        this.x = canvas.width + Math.random() * 300; // Increased car spawn range
+        this.speed = -5; // Slower cars for easier gameplay
     } else {
-        this.x = -Math.random() * 100;
-        this.speed = 10;
+        this.x = -Math.random() * 300; // Increased car spawn range
+        this.speed = 5; // Slower cars for easier gameplay
     }
     this.y = lane.y;
 }
@@ -117,6 +138,7 @@ function initialize(arr) {
             if (event.key === "w" || event.key === "ArrowUp") {
                 Chicken.y -= LaneSize;
                 score++;
+                updateScore();
             }
             if (event.key === "a" || event.key === "ArrowLeft") {
                 Chicken.x -= LaneSize;
@@ -149,7 +171,6 @@ function backgroundMove(arr) {
         arr[i].y++;
         modCars(arr[i].cars);
     }
-    Chicken.y++;
 }
 
 // Modify cars
@@ -234,10 +255,43 @@ function drawAll(arr) {
 function collision(arr, type) {
     for (var i = 0; i < arr.length; i++) {
         if ((Chicken.x > arr[i].x && Chicken.x < arr[i].x + carW) || (Chicken.x + LaneSize / 2 > arr[i].x && Chicken.x + LaneSize / 2 < arr[i].x + carW)) {
-            playing = false;
+            gameOver();
             return;
         }
     }
+}
+
+// Game over logic
+function gameOver() {
+    playing = false;
+    showResetButton();
+}
+
+// Show reset button when the game is over
+function showResetButton() {
+    let resetButton = document.createElement("BUTTON");
+    resetButton.textContent = "Reset Game";
+    resetButton.style.position = "absolute";
+    resetButton.style.left = canvas.width / 2 - 75 + "px";
+    resetButton.style.top = canvas.height / 2 + "px";
+    resetButton.style.padding = "10px";
+    resetButton.onclick = function () {
+        resetGame();
+    };
+    document.body.appendChild(resetButton);
+}
+
+// Reset the game
+function resetGame() {
+    score = 0;
+    updateScore();
+    playing = true;
+    chickenX = window.innerWidth / 2 - 25;
+    chickenY = window.innerHeight - 100;
+    chicken_img.style.left = chickenX + "px";
+    chicken_img.style.top = chickenY + "px";
+    document.body.removeChild(document.querySelector("button"));
+    main();
 }
 
 // Draw cars on the canvas
