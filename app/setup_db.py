@@ -146,3 +146,4 @@ def custom_themes(username, theme, color1, color2):
     c.close()
 
 create_tables()
+create_user("chicken", "moo")
