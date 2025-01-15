@@ -43,7 +43,7 @@ def auth():
         session['username'] = username
         return redirect("/home")
     flash("Incorrect password", "error")
-    return redirect("/login")
+    return redirect("/")
     
 @app.route('/register', methods=['GET', 'POST'])
 def register():
@@ -53,34 +53,27 @@ def register():
         if (len(setup_db.get_username(username)) != 0):
             flash("An account under this username already exists.", "error")
             return redirect("/register")
-        setup_db.create_user(username, password)
+        print(setup_db.create_user(username, password))
         session['username'] = username
         return redirect("/")
     return render_template("register.html")
 
-
-
-
-
-
-
-
 @app.route('/home', methods=['GET', 'POST'])
 def home():
-#   if 'username' not in session:
- #       return redirect("/")
+    if 'username' not in session:
+        return redirect("/")
     return render_template("home.html")
 
 @app.route('/leaderboard', methods=['GET', 'POST'])
 def leaderboard():
-#   if 'username' not in session:
- #       return redirect("/")
+    if 'username' not in session:
+        return redirect("/")
     return render_template("leaderboard.html")
 
 @app.route('/game', methods=['GET', 'POST'])
 def game():
-#   if 'username' not in session:
- #       return redirect("/")
+    if 'username' not in session:
+        return redirect("/")
     return render_template("game.html")
 
 @app.route('/crossyroads', methods=['GET', 'POST'])

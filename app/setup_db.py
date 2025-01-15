@@ -1,9 +1,9 @@
 import json  
 import sqlite3 
 import os  
- 
+
 DB_FILE = "GG_database.db" 
- 
+
 def create_tables(): 
     db = sqlite3.connect(DB_FILE) 
     c = db.cursor() 
@@ -29,7 +29,7 @@ def create_tables():
         ); 
         ''') 
     db.commit() 
-    c.close() 
+    db.close() 
  
 #USER INFO
 
@@ -37,21 +37,24 @@ def create_user(username, password):
     db = sqlite3.connect(DB_FILE) 
     c = db.cursor()
     c.execute("INSERT INTO users (username, password, character, unlockedChars, coins, highscore, musicPref) VALUES (?, ?, ?, ?, ?, ?, ?)", (username, password, "", "", 0, 0, ""))  
-    c.close() 
+    db.commit()
+    db.close()
 
 def get_username(username): 
     db = sqlite3.connect(DB_FILE) 
-    c = db.cursor() 
-    username = c.execute("SELECT username FROM users WHERE username = ?", (username,)).fetchall() 
-    c.close() 
+    c = db.cursor()
+    username = c.execute("SELECT * FROM users WHERE username = ?", (username,)).fetchall()
+    db.commit()
+    db.close()
     return username 
 
 def get_password(username): 
     db = sqlite3.connect(DB_FILE) 
     c = db.cursor() 
     password = c.execute("SELECT password FROM users WHERE username = ?", (username,)).fetchone() 
-    c.close() 
-    return password 
+    db.commit()
+    db.close()
+    return password[0] 
 
 #COINS
 
@@ -60,20 +63,23 @@ def add_coins(username, coins):
     c = db.cursor() 
     coins_now = int(c.execute("SELECT coins FROM users WHERE username = ?", (username, )).fetchone()) + coins 
     c.execute("UPDATE users SET coins=? WHERE usernanme =?", (coins_now, username)) 
-    c.close() 
+    db.commit()
+    db.close() 
  
 def remove_coins(username, coins): 
     db = sqlite3.connect(DB_FILE) 
     c = db.cursor() 
     coins_now = int(c.execute("SELECT coins FROM users WHERE username = ?", (username, )).fetchone()) - coins 
     c.execute("UPDATE users SET coins=? WHERE usernanme = ?", (coins_now, username)) 
-    c.close() 
+    db.commit()
+    db.close() 
 
 def get_coins(username): 
     db = sqlite3.connect(DB_FILE) 
     c = db.cursor() 
     c.execute("SELECT coins FROM users WHERE username = ?", (username,)).fetchone() 
-    c.close() 
+    db.commit()
+    db.close() 
     return coins 
  
  #POINTS
@@ -83,13 +89,15 @@ def add_points(username, points):
     c = db.cursor() 
     points_now = int(c.execute("SELECT points FROM users WHERE username = ?", (username, )).fetchone()) + points 
     c.execute("UPDATE users SET points=? WHERE usernanme = ?", (points_now, username)) 
-    c.close() 
+    db.commit()
+    db.close() 
  
 def get_points(username): 
     db = sqlite3.connect(DB_FILE) 
     c = db.cursor() 
     c.execute("SELECT points FROM users WHERE usernanme = ?", (username,)).fetchone() 
-    c.close() 
+    db.commit()
+    db.close() 
     return points 
  
 def change_high_score(username, score): 
@@ -98,7 +106,8 @@ def change_high_score(username, score):
     curent_score = c.execute("SELECT highscore FROM users WHERE username = ?", (username,)).fetchone() 
     if (score > current_score): 
         c.execute("UPDATE users SET highscore=? WHERE username = ?", (score, username)) 
-    c.close() 
+    db.commit()
+    db.close() 
  
  #OTHER METHODS
 
@@ -106,26 +115,29 @@ def choose_character(username, character):
     db = sqlite3.connect(DB_FILE) 
     c = db.cursor() 
     c.execute("UPDATE character FROM users WHERE usernanme = ?", (character, username))
-    c.close() 
+    db.close() 
 
 def choose_music(username, music): 
     db = sqlite3.connect(DB_FILE) 
     c = db.cursor() 
     c.execute("UPDATE musicPref FROM users WHERE usernanme = ?", (music, username)) 
-    c.close() 
+    db.commit()
+    db.close() 
  
 def choose_message(username, message): 
     db = sqlite3.connect(DB_FILE) 
     c = db.cursor() 
     c.execute("UPDATE message FROM users WHERE usernanme = ?", (message, username)) 
-    c.close() 
+    db.commit()
+    db.close() 
  
 def leaderboard(): 
     db = sqlite3.connect(DB_FILE) 
     c = db.cursor() 
     points = c.execute("SELECT username, points FROM users ORDER BY points DESC LIMIT 8").fetchall()
     messages = c.execute("SELECT username, message FROM users ORDER by points DESC LIMIT 8").fetchall() 
-    c.close() 
+    db.commit()
+    db.close() 
     return points, messages 
  
 def add_themes(): 
@@ -137,13 +149,13 @@ def add_themes():
             ('Winter', 'White', 'White') 
     """) 
     db.commit() 
-    c.close() 
+    db.close() 
  
 def custom_themes(username, theme, color1, color2): 
     db = sqlite3.connect(DB_FILE) 
     c = db.cursor() 
     c.execute("INSERT INTO themes (username, theme, color1, color2) VALUES (?, ?, ?, ?)", (username, theme, color1, color2)) 
-    c.close()
+    db.commit()
+    db.close()
 
 create_tables()
-create_user("chicken", "moo")
