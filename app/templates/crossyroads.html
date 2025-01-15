@@ -1,17 +1,37 @@
 <!DOCTYPE html>
-
 <html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Crossy Roads</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      overflow: hidden;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background-color: #f0f0f0;
+    }
+    canvas {
+      background-color: #8fbc8f;
+      border: 2px solid black;
+    }
+    .chicken {
+      position: absolute;
+      width: 50px;
+      height: 50px;
+      background-color: yellow;
+      border-radius: 50%;
+    }
+  </style>
+</head>
+<body>
+  <canvas id="game"></canvas>
+  <div class="chicken" id="chicken"></div>
+  <script src="/static/js/crossy.js"></script>
 
-  <html>
-    <head>
-      <meta charset="utf-8"/>
-      <script src="https://cdn.tailwindcss.com"></script>
-      <title>JS work the foist</title>
-    </head>
-
-    <body class="flex w-screen h-screen items-center justify-center">
-      <canvas class="w-2/3 h-2/3 bg-purple-500 overflow-hidden" id="game" style="clip-path: inset(0px 0px 0px 0px);">
-      </canvas>
-      <script src="crossy.js"></script>
-    </body>
-  </html>
+</body>
+</html>
