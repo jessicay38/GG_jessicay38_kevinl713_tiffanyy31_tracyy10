@@ -11,27 +11,33 @@ let score = 0;
 let playing = true;
 let animationId;
 let Chicken;
+let onLog = 0;
 function Lane(ycor){
   this.type = Math.random()*3;
   this.direction = Math.random();
   this.y = ycor;
   this.cars = [];
+  if(this.direction > 0.5){
+    this.speed = -(Math.random() * (8 - 5) + 5);
+  }
+  else{
+    this.speed = (Math.random() * (8 - 5) + 5);
+  }
   if(this.type > 2){
     this.carInterval = null;
   }
   else{
-    this.carInterval = setInterval(() => makeCar(this.cars,new car(this)),(Math.random() * (maxSpawn - minSpawn) + minSpawn));
+    this.carInterval = setInterval(() => makeCar(this.cars,new car(this,this.speed)),(Math.random() * (maxSpawn - minSpawn) + minSpawn));
   }
 }
-function car(lane){
+function car(lane,speed){
   if(lane.direction > 0.5){
     this.x = canvas.width + Math.random()*100;
-    this.speed = -10;
   }
   else{
     this.x = - Math.random()*100;
-    this.speed = 10;
   }
+  this.speed = speed;
   this.y = lane.y;
 }
 function main(){
@@ -39,11 +45,12 @@ function main(){
   setup(lanes);
 }
 function setup(arr){
+  onlog = false;
   var start = document.createElement("BUTTON");
   var rect = canvas.getBoundingClientRect();
   start.style.position = "absolute";
-  start.style.left = rect.left+rect.width/2+"px";
-  start.style.top = rect.top + rect.height/2 + "px";
+  start.style.left = rect.width/2+"px";
+  start.style.top = rect.height/2 + "px";
   start.style.width = canvas.width/4+"px";
   start.style.height = canvas.height/4+"px";
   start.textContent = "START";
@@ -59,6 +66,11 @@ function initialize(arr){
   for(var i = 0; i < Math.ceil(canvas.height/LaneSize);i ++){
     arr.push(new Lane(canvas.height-LaneSize*(i+1)));
   }
+  for(var a = 0; a < 5; a ++){
+    arr[a].type = 2.9;
+    clearInterval(arr[a].carInterval);
+    arr[a].carInterval = null;
+  }
   document.addEventListener("keydown", function(event) {
     if(playing){
       if(event.key === "w" || event.key === "ArrowUp") {
@@ -71,6 +83,7 @@ function initialize(arr){
       if(event.key === "d" || event.key === "ArrowRight") {
         Chicken.x += LaneSize;
       }
+      onLog = 0;
       }
     });
   animate(arr);
@@ -94,6 +107,7 @@ function backgroundMove(arr){
     modCars(arr[i].cars);
   }
   Chicken.y ++;
+  Chicken.x += onLog;
 }
 function modCars(arr){
   if (arr.length === 0 || !playing) return;
@@ -151,6 +165,9 @@ function animate(arr){
       collision(arr[i].cars,arr[i].type);
     }
   }
+  if(Chicken.y > canvas.height){
+    playing = false;
+  }
   animationId = requestAnimationFrame(function() { animate(arr); });
 }
 function chicken(){
@@ -165,15 +182,34 @@ function drawCars(arr) {
   ctx.fillStyle = "purple";
   for (let lane of arr) {
     for (let car of lane.cars) {
+      if(lane.type > 1 && lane.type < 2){
+        ctx.fillStyle = "brown";
+      }
+      else{
+        ctx.fillStyle = "purple";
+      }
       ctx.fillRect(car.x, car.y, carW, LaneSize);
     }
   }
 }
 function collision(arr,type){
-  for(var i = 0; i < arr.length; i ++){
-    if((Chicken.x > arr[i].x && Chicken.x < arr[i].x + carW) || (Chicken.x + LaneSize/2 > arr[i].x && Chicken.x + LaneSize/2 < arr[i].x + carW)){
+  if(type > 1 && type < 2){
+    for(var i = 0; i < arr.length; i ++){
+      if((Chicken.x > arr[i].x && Chicken.x < arr[i].x + carW) || (Chicken.x + LaneSize/2 > arr[i].x && Chicken.x + LaneSize/2 < arr[i].x + carW)){
+        onLog = arr[i].speed;
+        return;
+      }
+    }
+    if(onLog == 0){
       playing = false;
-      return;
+    }
+  }
+  else{
+    for(var i = 0; i < arr.length; i ++){
+      if((Chicken.x > arr[i].x && Chicken.x < arr[i].x + carW) || (Chicken.x + LaneSize/2 > arr[i].x && Chicken.x + LaneSize/2 < arr[i].x + carW)){
+        playing = false;
+        return;
+      }
     }
   }
 }
