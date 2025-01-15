@@ -36,8 +36,8 @@ def login():
 def auth():
     username = request.form.get('username')
     password = request.form.get('password')
-    if (setup_db.get_username(username) == False):
-        flash("This username does not have an account linked to it. Create an account?", "error")
+    if (len(setup_db.get_username(username)) == 0):
+        flash("This username does not have an account linked to it.", "error")
         return redirect("/")
     if (password == setup_db.get_password(username)):
         session['username'] = username
@@ -45,6 +45,25 @@ def auth():
     flash("Incorrect password", "error")
     return redirect("/login")
     
+@app.route('/register', methods=['GET', 'POST'])
+def register():
+    if request.method == 'POST':
+        username = request.form.get('username')
+        password = request.form.get('password')
+        if (len(setup_db.get_username(username)) != 0):
+            flash("An account under this username already exists.", "error")
+            return redirect("/register")
+        setup_db.create_user(username, password)
+        session['username'] = username
+        return redirect("/")
+    return render_template("register.html")
+
+
+
+
+
+
+
 
 @app.route('/home', methods=['GET', 'POST'])
 def home():
@@ -57,10 +76,6 @@ def leaderboard():
 #   if 'username' not in session:
  #       return redirect("/")
     return render_template("leaderboard.html")
-
-@app.route('/register', methods=['GET', 'POST'])
-def register():
-    return render_template("register.html")
 
 @app.route('/game', methods=['GET', 'POST'])
 def game():

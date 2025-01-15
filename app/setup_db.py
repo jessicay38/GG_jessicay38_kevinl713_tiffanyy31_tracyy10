@@ -35,12 +35,17 @@ def create_tables():
 
 def create_user(username, password): 
     db = sqlite3.connect(DB_FILE) 
-    c = db.cursor() 
-    userExists = c.execute("SELECT * FROM users WHERE username = ?", (username,)).fetchall()
-    if (len(userExists) == 0):
-        c.execute("INSERT INTO users (username, password, character, unlockedChars, coins, highscore, musicPref) VALUES (?, ?, ?, ?, ?, ?, ?)", (username, password, "", "", 0, 0, ""))  
+    c = db.cursor()
+    c.execute("INSERT INTO users (username, password, character, unlockedChars, coins, highscore, musicPref) VALUES (?, ?, ?, ?, ?, ?, ?)", (username, password, "", "", 0, 0, ""))  
     c.close() 
- 
+
+def get_username(username): 
+    db = sqlite3.connect(DB_FILE) 
+    c = db.cursor() 
+    username = c.execute("SELECT username FROM users WHERE username = ?", (username,)).fetchall() 
+    c.close() 
+    return username 
+
 def get_password(username): 
     db = sqlite3.connect(DB_FILE) 
     c = db.cursor() 
