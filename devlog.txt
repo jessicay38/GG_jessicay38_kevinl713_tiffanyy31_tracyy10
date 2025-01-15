@@ -60,7 +60,14 @@ tiffanyY 2024-1-13 20:00
 - Helped with DB file
 - Fixed some linkages
 
-jessicaY 2024-2-13 3:26
+jessicaY 2024-1-13 3:26
 - made changes to database methods 
 - got rid of exceptions due to errors 
 - updated design doc and readme
+
+tiffanyY 2024-1-14 9:00
+- Redid CSS and home page
+
+tiffanyY 2024-1-15 11:34
+- Added a new form in settings by request of tracy
+- Fixed some more colors/css
